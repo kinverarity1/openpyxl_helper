@@ -1,7 +1,8 @@
 from openpyxl import *
+import pandas as pd
 
 
-def load_worksheet(file, sheet=0, ignore_hidden_rows=True):
+def load_worksheet(file, sheet=0, ignore_hidden_rows=True, **kwargs):
     wb = load_workbook(file)
     if isinstance(sheet, int):
         sheet = wb.sheetnames[sheet]
@@ -20,4 +21,4 @@ def load_worksheet(file, sheet=0, ignore_hidden_rows=True):
             values = [cell.value for cell in row]
             data.append(values)
 
-    return pd.DataFrame(data, columns=headers, **kwargs)
+    return pd.DataFrame(data, columns=headers, **kwargs).dropna()
